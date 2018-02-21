@@ -1,0 +1,251 @@
+{
+    "id": "/providers/Microsoft.Logic/galleries/public/templates/e4e33260-70cc-4c75-b736-00fb99e0f2ec",
+    "type": "Microsoft.Logic/galleries/templates",
+    "name": "e4e33260-70cc-4c75-b736-00fb99e0f2ec",
+    "properties": {
+        "author": {
+            "displayName": "Faisal Tahiri"
+        },
+        "categoryNames": [
+            "enterprise_integration"
+        ],
+        "description": "This template facilitates data ingestion from SQL Server into Log Analytics.",
+        "displayName": "SQL Server to Log Analytics",
+        "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Current_time": {
+                "inputs": {},
+                "kind": "CurrentTime",
+                "runAfter": {},
+                "type": "Expression"
+            },
+            "For_each": {
+                "actions": {
+                    "Send_Data": {
+                        "inputs": {
+                            "body": "{   \n     \"Example_Field\": ,\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\"\n}",
+                            "headers": {
+                                "Log-Type": "Custom_Log_Name",
+                                "time-generated-field": "@body('Current_time')"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['azureloganalyticsdatacollector']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/api/logs"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "foreach": "@body('Get_rows')?['value']",
+                "runAfter": {
+                    "Get_rows": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "concurrency": {
+                        "repetitions": 1
+                    }
+                },
+                "type": "Foreach"
+            },
+            "For_each_2": {
+                "actions": {
+                    "Send_Data_2": {
+                        "inputs": {
+                            "body": "{   \n     \"Example_Field\": ,\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\"\n}",
+                            "headers": {
+                                "Log-Type": "Custom_Log_Name2",
+                                "time-generated-field": "@body('Current_time')"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['azureloganalyticsdatacollector']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/api/logs"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "foreach": "@body('Get_rows_2')?['value']",
+                "runAfter": {
+                    "Get_rows_2": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "concurrency": {
+                        "repetitions": 1
+                    }
+                },
+                "type": "Foreach"
+            },
+            "For_each_3": {
+                "actions": {
+                    "Send_Data_3": {
+                        "inputs": {
+                            "body": "{   \n     \"Example_Field\": ,\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\",\n    \"Example_Field\": \"\"\n}",
+                            "headers": {
+                                "Log-Type": "Custom_Log_Name3",
+                                "time-generated-field": "@body('Current_time')"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['azureloganalyticsdatacollector']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/api/logs"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "foreach": "@body('Get_rows_3')?['value']",
+                "runAfter": {
+                    "Get_rows_3": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "concurrency": {
+                        "repetitions": 1
+                    }
+                },
+                "type": "Foreach"
+            },
+            "Get_rows": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Devices]'))}/items",
+                    "queries": {
+                        "$top": 1000
+                    }
+                },
+                "runAfter": {
+                    "Current_time": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "paginationPolicy": {
+                        "minimumItemCount": 10000
+                    }
+                },
+                "type": "ApiConnection"
+            },
+            "Get_rows_2": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[DeviceUser]'))}/items",
+                    "queries": {
+                        "$top": 1000
+                    }
+                },
+                "runAfter": {
+                    "Current_time": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "paginationPolicy": {
+                        "minimumItemCount": 10000
+                    }
+                },
+                "type": "ApiConnection"
+            },
+            "Get_rows_3": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/tables/@{encodeURIComponent(encodeURIComponent('[dbo].[Incidents]'))}/items",
+                    "queries": {
+                        "$top": 1000
+                    }
+                },
+                "runAfter": {
+                    "Current_time": [
+                        "Succeeded"
+                    ]
+                },
+                "runtimeConfiguration": {
+                    "paginationPolicy": {
+                        "minimumItemCount": 10000
+                    }
+                },
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "Recurrence": {
+                "recurrence": {
+                    "frequency": "Week",
+                    "interval": 1,
+                    "startTime": "2018-02-24T15:00:00Z",
+                    "timeZone": "Pacific Standard Time"
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+        "connectionReferences": {
+            "azureloganalyticsdatacollector": {
+                "connection": {
+                    "id": ""
+                },
+                "api": {
+                    "id": "/subscriptions/{0}/providers/Microsoft.Web/locations/{1}/managedApis/azureloganalyticsdatacollector"
+                }
+            },
+            "sql": {
+                "connection": {
+                    "id": ""
+                },
+                "api": {
+                    "id": "/subscriptions/{0}/providers/Microsoft.Web/locations/{1}/managedApis/sql"
+                }
+            }
+        },
+        "apiSummaries": [
+            {
+                "type": "{Type of the API}",
+                "displayName": "{Name of the API}",
+                "iconUri": "{Icon of the API}",
+                "brandColor": "{Brand color of the API}"
+            }
+        ],
+        "changedTime": "2018-02-20T00:00:00.000Z",
+        "createdTime": "2018-02-20T00:00:00.000Z",
+        "popularity": 99
+    }
+}
