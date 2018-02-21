@@ -25,6 +25,7 @@
     "sharepoint-modified.json",
     "sharepoint-move.json",
     "slack-tweet.json",
+    "sql-to-loganalytics.json"
     "twitter-facebook.json",
     "twitter-sharepoint.json",
     "twitter-to-office.json",
